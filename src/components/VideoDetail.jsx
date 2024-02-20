@@ -3,11 +3,8 @@ import {Link,useParams} from 'react-router-dom'
 import {Box,Typography,Stack} from '@mui/material'
 import {CheckCircle} from '@mui/icons-material'
 import ReactPlayer from 'react-player'
-
 import { Videos } from './'
 import { fetchFromAPI } from '../utils/fetchFromAPI'
-
-
 
 export const VideoDetail = () => {
     const {id} = useParams()
@@ -19,7 +16,8 @@ export const VideoDetail = () => {
       .then((data)=>setVideoDetail(data.items[0]))
 
       fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`)
-      .then((data)=>setVideos(data.items[0]))
+      .then((data)=>setVideos(data.items))
+      console.log(videos);
     },[id])
 
     if(!videoDetail?.snippet) return 'Loading...'
@@ -52,16 +50,18 @@ export const VideoDetail = () => {
                             {parseInt(likeCount).toLocaleString()} likes
                           </Typography>
                        </Stack>
-
+                     
                     </Stack>
                     </Box>
                 </Box>
-                <Box px={2} py={{md:1,xs:5}} justifyContent='center' alignItems='center'>
+                   
+              <Box px={2} py={{md:1,xs:5}} justifyContent='center' alignItems='center'>
                   <Videos videos={videos} direction='column'/>
                 </Box>
-              </Stack>
-           
-                          
+                
+              </Stack>     
+              
+
         </Box>
     )
 }
